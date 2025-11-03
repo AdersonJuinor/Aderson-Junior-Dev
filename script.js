@@ -3,6 +3,45 @@ document.addEventListener('DOMContentLoaded', function() {
     const navLinks = document.querySelectorAll('.nav-links a');
     const header = document.getElementById('navbar');
 
+    // =======================================
+    // NOVO: Animação de Entrada ao Scrollar (Repetível)
+    // =======================================
+    const observerOptions = {
+        root: null, // Observa a viewport
+        rootMargin: '0px',
+        threshold: 0.1 // 10% do elemento visível dispara a animação
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            const element = entry.target;
+            const animationClass = element.dataset.animation;
+            const delay = element.dataset.delay;
+
+            if (entry.isIntersecting) {
+                // Elemento ENTROU na viewport: aplica a animação
+                if (delay) {
+                    element.style.transitionDelay = delay;
+                }
+                // Aplica as classes que disparam a animação
+                element.classList.add('animated', animationClass);
+                // A animação irá disparar. Não chamamos 'unobserve' para que ela repita.
+
+            } else {
+                // Elemento SAIU da viewport: reseta o estado para a próxima entrada
+                // Remove as classes 'animated' e a classe de animação (resetando para o estado inicial/oculto)
+                element.classList.remove('animated', animationClass);
+                // Reseta o delay imediatamente para a próxima animação
+                element.style.transitionDelay = '0s'; 
+            }
+        });
+    }, observerOptions);
+
+    // Observa todos os elementos com a classe 'animate-on-scroll'
+    document.querySelectorAll('.animate-on-scroll').forEach(element => {
+        observer.observe(element);
+    });
+
     // 1. Função de Scroll Spy e Navbar Sticky
     function updateScroll() {
         let current = '';

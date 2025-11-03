@@ -13,7 +13,13 @@
     --text-color: var(--deep-blue); /* Texto principal será o tom mais escuro */
     --secondary-bg: var(--blue-gray-light);
     
-    --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    /*--font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+    /* NOVO: Fontes */
+    --font-heading: 'Poppins', sans-serif; /* Para Títulos, mais marcante */
+    --font-body: 'Roboto', sans-serif;     /* Para Corpo de Texto, mais legível */
+    
+    --section-max-width: 1200px;
 }
 
 /* Reset Básico */
@@ -24,7 +30,7 @@
 }
 
 body {
-    font-family: var(--font-family);
+    font-family: var(--font-body);
     color: var(--text-color);
     background-color: var(--background-color);
     line-height: 1.6;
@@ -50,6 +56,7 @@ body {
     font-weight: 700;
     font-size: 1.5em;
     color: var(--primary-color);
+    font-family: var(--font-heading);
 }
 
 .nav-links a {
@@ -58,6 +65,7 @@ body {
     margin-left: 20px;
     font-weight: 500;
     transition: color 0.3s;
+    font-family: var(--font-heading);
 }
 
 .nav-links a:hover,
@@ -76,47 +84,130 @@ body {
     margin-bottom: 60px;
     font-size: 2.5em;
     color: var(--primary-color);
+    font-family: var(--font-heading);
+}
+
+/* ======================================= */
+/* ANIMAÇÕES DE ENTRADA (AO SCROLLAR) */
+/* ======================================= */
+
+/* Estado inicial (oculto e fora de posição) */
+.animate-on-scroll {
+    opacity: 0;
+    transform: translateY(20px); /* Para animação 'fade-in-up' */
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+/* Estado inicial - Fade-In-Up (Usado nos cards de projeto) */
+.animate-on-scroll.fade-in-up {
+    transform: translateY(20px); 
+}
+
+/* Estado inicial - Slide-In-Left (Usado nos títulos de seção) */
+.animate-on-scroll.slide-in-left {
+    transform: translateX(-50px); 
+}
+
+/* Estado final (visível e na posição original) para fade-in-up */
+.animate-on-scroll.animated.fade-in-up {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Estado inicial - Fade-In-Up (para HOME) */
+.animate-on-scroll.fade-in-up {
+    transform: translateY(20px); 
+}
+
+/* NOVO: Estado inicial - Slide-In-Left (para SOBRE) */
+.animate-on-scroll.slide-in-left {
+    transform: translateX(-50px); 
+}
+
+.animate-on-scroll.animated {
+    opacity: 1;
+    transform: translate(0, 0); /* Reseta o transform para a posição final */
+}
+
+/* Estado final para fade-in (sem movimento vertical) */
+.animate-on-scroll.animated.fade-in {
+    opacity: 1;
+    transform: translateY(0); /* Garante que não tenha translação residual */
 }
 
 /* 2. SEÇÃO HOME (HERO) */
 .hero-section {
-    padding-top: 150px; /* Margem superior para a navbar fixa */
+    padding-top: 180px; /* Margem superior para a navbar fixa */
     display: flex;
-    justify-content: space-between;
+    flex-wrap: wrap;
+    justify-content: center;
     align-items: center;
-    gap: 40px;
+    gap: 50px;
+    min-height: calc(100vh - 80px); /* Ajusta a altura mínima */
     text-align: left;
+
+    /* ALTERAÇÃO: NOVO GRADIENTE COM MAIS CONTRASTE E MOVIMENTO MAIS LENTO */
+    background: linear-gradient(-45deg, 
+        var(--cream-light),      /* Cor clara */
+        var(--secondary-bg),     /* Cinza azulado claro */
+        var(--primary-color),    /* NOVO: Cor mais escura para contraste */
+        var(--secondary-bg),     /* Cinza azulado claro */
+        var(--cream-light)       /* Cor clara */
+    );
+    
+    background-size: 400% 400%; /* Aumenta o tamanho do gradiente para 400% (mais visível) */
+    animation: subtle-gradient-move 20s ease infinite; /* Diminui a velocidade para 20 segundos */
+    
+    position: relative; 
+    overflow: hidden;
 }
 
 .hero-content  {
     text-align: left;
+    flex: 1; /* Ocupa o espaço disponível */
+    max-width: 600px; /* Limita a largura do bloco de texto */
+    text-align: left; /* Garante o texto alinhado à esquerda */
 }
 
 .hero-content h1 {
-    font-size: 2.8em;
-    margin-bottom: 8px;
+    font-size: 3.2em;
+    margin-bottom: 12px;
+    font-family: var(--font-heading);
 }
 
 .hero-content h2 {
-    font-size: 1.5em;
+    font-size: 1.8em;
     color: var(--primary-color);
-    margin-bottom: 15px;
+    margin-bottom: 25px;
+    font-family: var(--font-heading);
 }
 
 .hero-content p {
-    font-size: 1em;
-    margin-bottom: 30px;
+    font-size: 1.1em;
+    margin-bottom: 40px;
+    line-height: 1.7; /* Melhor legibilidade */
+    font-family: var(--font-heading);
+}
+
+.hero-image {
+    flex-shrink: 0; /* Impede que a imagem encolha demais */
+    margin-top: 20px; /* Espaço no topo para telas pequenas */
 }
 
 .hero-image img {
-    max-width: 350px;
+    max-width: 400px;
+    width: 100%;
+    height: auto;
     border-radius: 50%;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-    transition: transform 0.5s;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+    border: 5px solid var(--primary-color); /* Borda colorida */;
+    object-fit: cover;
+    transition: transform 0.8s ease-out, box-shadow 0.8s ease-out; /* Transições mais suaves */
 }
 
 .hero-image img:hover {
-    transform: translateY(-5px); /* Simulação de animação */
+    transform: scale(1.03) rotateZ(2deg); /* Um pequeno giro e zoom no hover */
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
 }
 
 /* Botões CTA */
@@ -128,6 +219,7 @@ body {
     font-weight: 600;
     transition: background-color 0.3s, transform 0.3s;
     display: inline-block;
+    font-family: var(--font-heading);
 }
 
 .btn.primary {
@@ -153,9 +245,46 @@ body {
     transform: translateY(-2px);
 }
 
+/* ======================================= */
+/* ANIMAÇÃO DE FUNDO SUBLTIL */
+/* ======================================= */
+
+@keyframes subtle-gradient-move {
+    0% { background-position: 0% 50%; } /* Começa na esquerda */
+    50% { background-position: 100% 50%; } /* Move para a direita */
+    100% { background-position: 0% 50%; } /* Retorna para o início (loop infinito) */
+}
+
 /* 3. SEÇÃO SOBRE MIM */
 .about-section {
     background-color: var(--secondary-bg);
+    padding: 170px 30px; /* Mantém o padding, mas a altura será dinâmica */
+    min-height: auto; /* IMPORTANTE: Remove a altura mínima de 100vh */
+}
+
+/* Novo container com design de "card" para destacar o texto */
+.about-content-container {
+    max-width: 800px; /* Aumenta a largura para melhor leitura */
+    margin: 0 auto;
+    padding: 40px;
+    background-color: var(--cream-light); /* Fundo mais claro para destaque */
+    border-radius: 10px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    text-align: left; /* Alinha o texto à esquerda para leitura */
+    font-family: var(--font-heading);
+}
+
+.about-content-container p {
+    font-size: 1.1em;
+    line-height: 1.7; /* Melhora a legibilidade */
+    margin-bottom: 25px;
+    color: var(--deep-blue);
+    font-family: var(--font-heading);
+}
+
+.about-content-container p strong {
+    color: var(--primary-color); /* Destaque na cor principal */
+    font-weight: 700;
 }
 
 .about-content {
@@ -167,75 +296,116 @@ body {
 
 /* 4. SEÇÃO HABILIDADES */
 .skills-grid {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 30px;
-    max-width: 900px;
-    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 20px;
+    max-width: 1000px;
+    margin: 45px  auto 0;
+}
+
+.skills-section {
+    background-color: var(--background-color); /* Fundo principal claro */
+    padding: 100px 50px; /* Aumentando o padding como fizemos no #sobre */
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+
+    /* NOVO: Fundo de Pontos */
+    background-image: radial-gradient(var(--blue-gray-light) 1px, transparent 1px);
+    background-size: 20px 20px; /* Tamanho da célula do grid de pontos */
+    
+    /* Aplica a animação */
+    animation: background-pan 30s linear infinite; /* 30s, linear, loop infinito */
 }
 
 .skill-item {
-    background-color: var(--secondary-bg);
-    padding: 20px 30px;
+    background-color: var(--secondary-bg); /* Fundo mais claro para os cards */
+    padding: 20px 15px;
     border-radius: 8px;
-    text-align: center;
-    min-width: 150px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-    transition: background-color 0.3s, transform 0.3s;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: default;
+    
+    /* Adicione sombra para destacar o card */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    font-family: var(--font-heading);
 }
 
 .skill-item:hover {
     background-color: var(--primary-color);
     color: white;
-    transform: translateY(-5px);
+    transform: translateY(-5px) scale(1.05); /* Efeito de elevação maior */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
 }
 
 .skill-item i {
     font-size: 2em;
     margin-bottom: 10px;
+    
 }
 
-/* 5. SEÇÃO PROJETOS */
+.skill-item:hover i {
+    color: white; /* O ícone também fica branco no hover */
+}
+
+/* NOVO: Keyframes para o Fundo de Pontos (Movimento Panorâmico) */
+@keyframes background-pan {
+    from {
+        background-position: 0 0;
+    }
+    to {
+        background-position: 100% 100%; /* Move o fundo na diagonal */
+    }
+}
+
 /* ======================================= */
 /* 5. SEÇÃO PROJETOS (NOVO ESTILO ELABORADO) */
 /* ======================================= */
 .projects-section {
-    background-color: var(--background-color);
+    background-color: var(--secondary-bg); /* Fundo cinza azulado claro */
+    padding: 80px 50px; /* Consistência no padding vertical */
+    text-align: center;
+    position: relative;
+    overflow: hidden; /* Necessário para a animação de fundo */
 }
 
 .projects-grid {
     display: grid;
-    /* Grid que se adapta: 2 colunas em telas maiores, 1 coluna no mobile */
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 40px;
+    /* Adaptação: Permite 2 ou 3 colunas em desktop, 1 no mobile */
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+    gap: 30px; /* Aumenta o espaçamento entre os cards */
     max-width: 1200px;
-    margin: 0 auto;
+    margin: 40px auto 0;
 }
 
 .project-card {
-    background-color: var(--cream-light); /* Fundo claro para o card */
-    border-radius: 8px;
-    overflow: hidden; /* Importante para a imagem */
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s, box-shadow 0.3s;
+    background-color: white; /* Fundo branco para os cards para contraste */
+    border-radius: 10px;
+    overflow: hidden; /* Garante que a imagem fique dentro */
+    text-align: left;
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    cursor: default;
+    /* Sombra mais forte para destacar o card */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); 
+    display: flex;
+    flex-direction: column;
+    width: 100%;
 }
 
 .project-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+    transform: translateY(-8px); /* Elevação maior no hover */
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
 }
 
 .project-image-container {
-    height: 200px; /* Altura fixa para a prévia da imagem */
+    height: 180px; /* Altura fixa para a imagem */
     overflow: hidden;
 }
 
 .project-image {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* Garante que a imagem preencha o container sem distorcer */
-    transition: transform 0.5s;
+    object-fit: cover; /* Garante que a imagem cubra a área sem distorcer */
+    transition: transform 0.6s ease;
 }
 
 .project-card:hover .project-image {
@@ -243,13 +413,15 @@ body {
 }
 
 .project-info {
-    padding: 20px;
+    padding: 15px;
+    flex-grow: 1; /* Garante que o info use o espaço restante antes dos links */
 }
 
 .project-info h3 {
-    font-size: 1.5em;
+    font-size: 1.4em;
     color: var(--primary-color);
-    margin-bottom: 10px;
+    margin-bottom: 8px;
+    font-family: var(--font-heading);
 }
 
 .project-description {
@@ -257,6 +429,7 @@ body {
     color: var(--blue-gray-medium);
     margin-bottom: 15px;
     min-height: 50px; /* Garante uniformidade se as descrições forem diferentes */
+    font-family: var(--font-heading);
 }
 
 /* Estilo das Tags */
@@ -269,6 +442,7 @@ body {
     border-radius: 4px;
     margin-right: 8px;
     margin-bottom: 15px;
+    font-family: var(--font-heading);
 }
 
 /* Botões de Link */
@@ -276,16 +450,19 @@ body {
     display: flex;
     gap: 15px;
     margin-top: 20px;
+    font-family: var(--font-heading);
 }
 
 .btn {
-    padding: 10px 15px;
+    padding: 8px 10px;
     border-radius: 5px;
     text-decoration: none;
     font-weight: 600;
     transition: background-color 0.3s, color 0.3s;
     text-align: center;
     flex-grow: 1; /* Faz os botões dividirem o espaço */
+    font-size: 0.9em;
+    font-family: var(--font-heading);
 }
 
 .btn-primary {
@@ -314,14 +491,42 @@ body {
     margin-right: 5px;
 }
 
-/* 6. SEÇÃO CONTATO */
+
 /* ======================================= */
 /* 6. SEÇÃO CONTATO (NOVO ESTILO ELABORADO) */
 /* ======================================= */
 .contact-section {
-    background-color: var(--secondary-bg); /* Mudei para um fundo claro para destacar os cartões */
-    color: var(--text-color);
+    background-color: var(--secondary-bg); /* Fundo da seção */
+    padding: 20px 50px 0; /* Mantém o padding vertical padrão */
     text-align: center;
+    position: relative;
+    overflow: hidden;
+
+    /* NOVO: Fundo de Gradiente Animado (Versão mais escura e sutil) */
+    background: linear-gradient(-45deg, 
+        var(--blue-gray-light),
+        var(--blue-gray-medium), /* Usando tom médio para mais contraste */
+        var(--blue-gray-light)
+    );
+    background-size: 300% 300%; 
+    animation: subtle-gradient-move 25s ease infinite; /* Mais lento que o #home */
+}
+
+/* NOVO: Estilo para o Container da Primeira Vista (Formulário) */
+.contact-hero {
+    /* Altura Mínima: 100vh - (Navbar ~80px) - (Top Padding ~80px) */
+    min-height: calc(100vh - 80px); 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; /* Centraliza verticalmente o conteúdo (Título, Slogan, Formulário) */
+    padding-bottom: 40px; /* Garante que o conteúdo não toque o fundo da dobra */
+}
+
+/* Ajuste o margin-bottom do título para centralizar melhor */
+.contact-section .section-title {
+    margin-top: 0; 
+    margin-bottom: 20px; 
 }
 
 .contact-section .section-title {
@@ -334,12 +539,75 @@ body {
     font-weight: 300;
 }
 
+/* NOVO: Estilo para o Container do Formulário */
+.form-container {
+    max-width: 600px; /* Define largura máxima para o formulário */
+    margin: 0 auto 50px auto; /* Espaçamento abaixo do formulário */
+    padding: 30px;
+    background-color: var(--background-color); /* Fundo claro para contraste */
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    text-align: left;
+}
+
+.contact-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.contact-form input[type="text"],
+.contact-form input[type="email"],
+.contact-form textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--blue-gray-light);
+    border-radius: 5px;
+    font-size: 1em;
+    font-family: var(--font-family);
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 5px rgba(47, 66, 80, 0.5); /* Sombra sutil com a cor principal */
+    outline: none;
+}
+
+.contact-form textarea {
+    resize: vertical;
+}
+
+/* NOVO: Estilo para o Botão de Envio */
+.full-width {
+    width: 100%;
+    margin-top: 15px;
+    font-size: 1.1em;
+}
+
+/* Estilo do Separador */
+.separator {
+    text-align: center;
+    margin: 20px auto 40px auto;
+    font-size: 1.1em;
+    color: var(--primary-color);
+    font-weight: 600;
+    max-width: 600px;
+}
+
 .contact-grid {
     display: grid;
-    /* 4 colunas em telas grandes, ou ajusta */
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); 
-    gap: 30px;
-    max-width: 1200px;
+    gap: 20px;
+    max-width: 1000px; 
+    
+    /* Adiciona padding superior e inferior */
+    padding-top: 20px; /* Espaço entre o separador e o grid */
+    padding-bottom: 120px; /* Espaço antes do rodapé */
     margin: 0 auto;
 }
 
@@ -384,6 +652,7 @@ body {
     font-size: 0.9em;
     color: var(--blue-gray-medium);
     margin-bottom: 15px;
+    font-family: var(--font-heading);
 }
 
 .contact-card:hover p {
@@ -409,14 +678,14 @@ body {
 }
 
 /* ======================================= */
-/* 7. RODAPÉ (FOOTER) */
+/* 7. RODAPÉ (FOOTER) - Ajustes Finais */
 /* ======================================= */
 .footer {
     background-color: var(--deep-blue); /* Fundo escuro */
-    color: var(--cream-light);
+    color: var(--cream-light); /* Texto claro */
     padding: 30px 50px;
     text-align: center;
-    border-top: 5px solid var(--primary-color);
+    border-top: 5px solid var(--primary-color); /* Linha de destaque */
     position: relative;
 }
 
@@ -429,19 +698,19 @@ body {
 }
 
 .footer-content p {
-    font-size: 0.9em;
+    font-size: 0.95em; /* Levemente maior */
     margin: 0;
 }
 
 .social-links-footer a {
     color: white;
-    font-size: 1.2em;
-    margin-left: 20px;
+    font-size: 1.3em; /* Ícones um pouco maiores */
+    margin-left: 25px; /* Mais espaçamento entre os ícones */
     transition: color 0.3s;
 }
 
 .social-links-footer a:hover {
-    color: var(--primary-color); /* Destaque na cor principal */
+    color: var(--secondary-bg); /* Use a cor secundária como hover para um efeito suave */
 }
 
 /* Botão Voltar ao Topo */
@@ -449,23 +718,23 @@ body {
     position: absolute;
     right: 50px;
     top: -20px; /* Posiciona um pouco acima do rodapé */
-    background-color: var(--primary-color);
+    background-color: var(--primary-color); /* Cor principal */
     color: white;
-    width: 40px;
-    height: 40px;
+    width: 45px; /* Tamanho ligeiramente maior */
+    height: 45px;
     border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 1.2em;
+    font-size: 1.3em;
     text-decoration: none;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4); /* Sombra mais forte */
     transition: background-color 0.3s, transform 0.3s;
 }
 
 .back-to-top:hover {
-    background-color: #303f9f;
-    transform: translateY(-3px);
+    background-color: var(--deep-blue); /* Fundo mais escuro no hover */
+    transform: translateY(-5px); /* Efeito de elevação mais perceptível */
 }
 
 /* Responsividade do Rodapé */
@@ -488,8 +757,8 @@ body {
 
     .back-to-top {
         right: 20px;
-        width: 35px;
-        height: 35px;
+        width: 38px;
+        height: 38px;
     }
 }
 
@@ -520,6 +789,11 @@ body {
         flex-direction: column-reverse; /* Coloca a imagem no topo no mobile */
         text-align: center;
         padding-top: 120px;
+        gap: 30px;
+    }
+
+    .hero-content {
+        max-width: 100%;
     }
 
     .hero-content h1 {
@@ -527,7 +801,15 @@ body {
     }
 
     .hero-content h2 {
-        font-size: 1.5em;
+        font-size: 1.3em;
+    }
+
+    .hero-content p {
+        font-size: 1em;
+    }
+
+    .hero-image {
+        margin-top: 0;
     }
 
     .hero-image img {
