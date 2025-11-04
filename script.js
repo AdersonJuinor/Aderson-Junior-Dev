@@ -2,6 +2,57 @@ document.addEventListener('DOMContentLoaded', function() {
     const sections = document.querySelectorAll('section');
     const navLinks = document.querySelectorAll('.nav-links a');
     const header = document.getElementById('navbar');
+    const menuToggle = document.querySelector('.menu-toggle');
+    const navContainer = document.querySelector('.nav-links'); 
+    const menuOverlay = document.querySelector('.menu-overlay'); // NOVO ELEMENTO
+    
+    // ... O seu código Scroll Spy e Smooth Scroll existente...
+    
+    // Lógica do Menu Hambúrguer (Mobile)
+    if (menuToggle && navContainer && menuOverlay) {
+        
+        // Função unificada para fechar o menu
+        const closeMenu = () => {
+            navContainer.classList.remove('open');
+            menuOverlay.classList.remove('open'); // Fecha o overlay
+            
+            const icon = menuToggle.querySelector('i');
+            if (icon) {
+                icon.classList.add('fa-bars');
+                icon.classList.remove('fa-times');
+            }
+        };
+
+        // Função unificada para abrir o menu
+        const openMenu = () => {
+            navContainer.classList.add('open');
+            menuOverlay.classList.add('open'); // Abre o overlay
+            
+            const icon = menuToggle.querySelector('i');
+            if (icon) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+            }
+        };
+        
+        // 1. Abre/Fecha ao clicar no Hambúrguer
+        menuToggle.addEventListener('click', function() {
+            if (navContainer.classList.contains('open')) {
+                closeMenu();
+            } else {
+                openMenu();
+            }
+        });
+        
+        // 2. Fecha ao clicar no Overlay (a área escura) - MELHOR UX!
+        menuOverlay.addEventListener('click', closeMenu);
+
+        // 3. Fecha ao clicar em qualquer link (Já existia, mas melhorado)
+        const menuLinks = navContainer.querySelectorAll('a');
+        menuLinks.forEach(link => {
+            link.addEventListener('click', closeMenu);
+        });
+    }
 
     // =======================================
     // NOVO: Animação de Entrada ao Scrollar (Repetível)
