@@ -395,7 +395,7 @@ body {
 /* ======================================= */
 .projects-section {
     background-color: var(--secondary-bg); /* Fundo cinza azulado claro */
-    padding: 80px 50px; /* Consistência no padding vertical */
+    padding: 30px 50px; /* Consistência no padding vertical */
     text-align: center;
     position: relative;
     overflow: hidden; /* Necessário para a animação de fundo */
@@ -406,8 +406,8 @@ body {
     /* Adaptação: Permite 2 ou 3 colunas em desktop, 1 no mobile */
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
     gap: 30px; /* Aumenta o espaçamento entre os cards */
-    max-width: 1200px;
-    margin: 40px auto 0;
+    max-width: 10000px;
+    margin: 30px auto 0;
 }
 
 .project-card {
@@ -418,7 +418,7 @@ body {
     transition: transform 0.4s ease, box-shadow 0.4s ease;
     cursor: default;
     /* Sombra mais forte para destacar o card */
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); 
+    box-shadow: 0 20px 30px rgba(0, 0, 0, 0.1); 
     display: flex;
     flex-direction: column;
     width: 100%;
